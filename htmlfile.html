@@ -23,111 +23,12 @@
 			console.error('Error loading Embedded Messaging: ', err);
 		}
 	};
-</script>
-	<script>    
-const url1 = location.href;
-if (!url1.includes('mytrimble') && !url1.includes('experience.com/sfsites') && !url1.includes('autherror')  && !url1.includes('case') && !url1.includes('products') && !url1.includes('contactsupport') && !url1.includes('admin') && !url1.includes('internal-support') &&  !url1.includes('s/article')) {
-  location.href = '/s/contactsupport';
-}
-
-//call the chat bot from button click
-document.addEventListener("initiatechatbot", startChat, false);
-
-function startChat(ev) {
-  if (ev.detail.startChat === true) {
-        let button = document.getElementsByClassName('flatButton')[0];
-        let buttonMinimized = document.getElementsByClassName('embeddedServiceSidebarMinimizedDefaultUI')[0];
-        let buttonLabel = button?.getAttribute("aria-label");
-      if (buttonLabel == "Chat with an Expert" || buttonLabel == 'Contact Us'){
-            button.click();
-            buttonMinimized?.click();
-          }
-    }
-}
-
-</script>
-
-<!-- OneTrust Cookies Consent Notice start for dev.my.trimblecloud.com -->
-<script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"  type="text/javascript" charset="UTF-8" data-domain-script="8286ca93-9b24-46e3-b4c9-2392552c3b69-test" ></script>
-<script type="text/javascript">
-function OptanonWrapper() { }
-</script>
-<!-- OneTrust Cookies Consent Notice end for dev.my.trimblecloud.com -->
-
-<!-- Google Tag Manager -->
-
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5HFD47D');</script>
-
-<!-- End Google Tag Manager -->
-
-<!-- Shadow DOM Analytics solution Example-->
-
-<script>
-  (function() {
-    // Set to the event you want to track
-    var eventName = 'click',
-    // Set to false if you don't want to use capture phase
-        useCapture = true,
-    // Set to false if you want to track all events and not just those in shadow DOM
-        trackOnlyShadowDom = true;
-
-    var callback = function(event) {
-      if ('composed' in event && typeof event.composedPath === 'function') {
-        // Get the path of elements the event climbed through, e.g.
-        // [span, div, div, section, body]
-        var path = event.composedPath();
-        console.log(path);
-        
-        // Fetch reference to the element that was actually clicked
-        var targetElement = path[0];
-        
-        // Check if the element is WITHIN the shadow DOM (ignoring the root)
-        var shadowFound = path.length ? path.filter(function(i) {
-          return !targetElement.shadowRoot && !!i.shadowRoot;
-        }).length > 0 : false;
-        
-        // If only shadow DOM events should be tracked and the element is not within one, return
-        //if (trackOnlyShadowDom && !shadowFound) return;
-        
-        // Push to dataLayer
-        if(shadowFound) {
-            window.dataLayer.push({
-                event: "gtm.click",
-
-                'gtm.element': targetElement,
-                'gtm.elementClasses': targetElement.className || '',
-                'gtm.elementId': targetElement.id || '',
-                'gtm.elementTarget': targetElement.target || '',
-                'gtm.elementUrl': targetElement.href || targetElement.action || '',
-                inShadowDom: shadowFound, 
-                'element.path': path.map(p => p.localName)
-                
-
-            });
-        } else {
-            window.dataLayer.push({
-                event: "gtm.click",
-                inShadowDom: shadowFound
-            });
-        }
-      }
-    };
-    
-    document.addEventListener(eventName, callback, useCapture);
-  })();
-</script>
-<!-- 23 Nov 2024 MessagingChat code -->
-<script>
-    var userId;
+var userId;
 
 function callPrechatAPI() {
     // get UserId of the logged in Experience Site User
     userId = '005cc000006JMarAAG';
-    //console.log('Passing UserId = userId (currently Logged In User Id, or ' + userId + ')');
+    console.log('Passing UserId = userId (currently Logged In User Id, or ' + userId + ')');
     // Send it!
     embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
         "UserID": userId
@@ -135,94 +36,27 @@ function callPrechatAPI() {
 }
 //just incase
 function trapButtonClick() {
-   // console.log('Looking for embeddedMessagingConversationButton...');
+    console.log('Looking for embeddedMessagingConversationButton...');
     var b = document.getElementById('embeddedMessagingConversationButton');
     if (b != null) {
-       // console.log('Found it, attaching to onClick event');
+        console.log('Found it, attaching to onClick event');
         b.addEventListener('click', callPrechatAPI);
     } else {
-        //console.log('No button yet; wait a second and try again');
+        console.log('No button yet; wait a second and try again');
         setTimeout(trapButtonClick, 1000);
     }
 }
 window.addEventListener("onEmbeddedMessagingReady", () => {
-    //console.log('Received the onEmbeddedMessagingReady event...');
+    console.log('Received the onEmbeddedMessagingReady event...');
     callPrechatAPI();
 });
 window.addEventListener("load", trapButtonClick); 
-</script>
-<!-- blzs-2378 22 july 2025 chatbot launch event code -->
-<script>
-    window.addEventListener("onEmbeddedMessagingReady", () => {
-        // embeddedservice_bootstrap.settings.hideChatButtonOnLoad = true;
-    });
-
-    document.addEventListener('launchMIAWChatEvent', function () {
-        launchChat();
-    });
-
-    function launchChat() {
-        embeddedservice_bootstrap.utilAPI.launchChat()
-            .then(() => {})
-            .catch(() => {})
-            .finally(() => {});
-    }
-</script>
-
-<!-- 03 Nov 2025 HOSTING SITE SCRIPT -->
-<script>
-// Listen for messages from the Embedded Messaging iframe
-window.addEventListener("message", (event) => {
-    if (
-        event.data.method === "EMBEDDED_MESSAGING_DISPATCH_EVENT_TO_HOST" &&
-        event.data.data.eventDetails.conversationEntry &&
-        event.data.data.eventDetails.conversationEntry.entryPayload
-    ) {
-        let payload = JSON.parse(event.data.data.eventDetails.conversationEntry.entryPayload);
-
-        // Disable input when bot shows quick replies or buttons
-        if (payload.abstractMessage && payload.abstractMessage.choices) {
-            postIframeDisable();
-        }
-        // Enable input again when user needs to respond
-        else if (payload.abstractMessage && payload.abstractMessage.choicesResponse) {
-            postIframeEnable();
-        }
-    }
-});
-
-// Function to send enable message to iframe
-function postIframeEnable() {
-    var iframe = document.getElementById("embeddedMessagingFrame");
-    if (iframe && iframe.contentWindow) {
-        iframe.contentWindow.postMessage('InputEnable');
-    }
-}
-
-// Function to send disable message to iframe
-function postIframeDisable() {
-    var iframe = document.getElementById("embeddedMessagingFrame");
-    if (iframe && iframe.contentWindow) {
-        iframe.contentWindow.postMessage('InputDisable');
-    }
-}
-</script>
-
-<script>
-// Function to send disable message to we send request backend
-window.addEventListener("load", function() {
-    embeddedservice_bootstrap.settings.displayHelpButton = true;
-    embeddedservice_bootstrap.settings.language = 'en';
-    
-    //  This disables user input when the bot is responding
-    embeddedservice_bootstrap.settings.enableUserInputForConversationWithBot = false;
-
-});
 </script>
 <script type='text/javascript' src='https://trimbledx--dxblzs.sandbox.my.site.com/ESWEinsteinBotEmbSvc1750331771561/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
 
 </body>
 
 </html>
+
 
 
